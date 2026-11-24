@@ -1,0 +1,23 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# OS / Editor artifacts
+.DS_Store
+.vscode/
+.idea/
+
+# (Optional) If output charts/CSVs shouldn't be tracked:
+# output/
