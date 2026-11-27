@@ -5,83 +5,85 @@
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  /* Light Theme: Daylight Alabaster & Crisp Slate */
-  --paper: #f2f5f9;
-  --surface: #ffffff;
-  --surface-elevated: #ffffff;
-  --subtle: #e9eef5;
-  --row-hover: #f6f8fc;
-  --rule: #e1e7ef;
-  --rule-strong: #cbd5e1;
-  --grid-line: #e6ecf2;
-  --track-bg: #dbe3ed;
-  --ambient-glow: rgba(16, 185, 129, 0.08);
-  --tooltip-bg: rgba(255, 255, 255, 0.94);
+  /* Light theme */
+  --paper: #e6eaef;
+  --surface: #f4f6f8;
+  --surface-elevated: #fafbfc;
+  --subtle: #dde3ea;
+  --row-hover: #eaeff4;
+  --rule: #cfd7e0;
+  --rule-strong: #b4c0cd;
+  --card-border: #7c8ca1;
+  --card-border-width: 1.5px;
+  --grid-line: #dce2ea;
+  --track-bg: #cdd6e0;
+  --tooltip-bg: #f8fafc;
 
-  --ink: #0f172a;
-  --ink-muted: #475569;
-  --ink-dim: #64748b;
+  --ink: #141c24;
+  --ink-muted: #485461;
+  --ink-dim: #647282;
 
-  --btn-active-bg: #0f172a;
-  --btn-active-fg: #f8fafc;
+  --btn-active-bg: #1e293b;
+  --btn-active-fg: #f1f5f9;
 
-  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04), 0 6px 16px -4px rgba(15, 23, 42, 0.05);
-  --shadow-pill: 0 1px 3px rgba(15, 23, 42, 0.08);
-  --shadow-popover: 0 12px 28px -6px rgba(15, 23, 42, 0.14), 0 4px 10px -4px rgba(15, 23, 42, 0.08);
+  --shadow-card: 0 1px 2px rgba(20, 28, 36, 0.05);
+  --shadow-pill: 0 1px 2px rgba(20, 28, 36, 0.08);
+  --shadow-popover: 0 8px 20px -4px rgba(20, 28, 36, 0.14);
 
-  /* Energy Sector Accents */
-  --clean: #059669;
-  --clean-soft: #ecfdf5;
-  --clean-border: #a7f3d0;
-  --fossil: #d9482b;
-  --fossil-soft: #fef2f2;
-  --fossil-border: #fecaca;
-  --solar: #d97706;
-  --wind: #0891b2;
+  /* Fuel and status colors */
+  --clean: #05825b;
+  --clean-soft: #dff2ea;
+  --clean-border: #a5d8c4;
+  --fossil: #c94124;
+  --fossil-soft: #f8e5e1;
+  --fossil-border: #e7b9b0;
+  --solar: #c96f08;
+  --wind: #0b849e;
   --hydro: #2563eb;
-  --nuclear: #7c3aed;
+  --nuclear: #6d3cd4;
   --coal: #475569;
 }
 
 :root[data-theme="dark"] {
   color-scheme: dark;
 
-  /* Dark Theme: Midnight Obsidian & Luminous Grid Telemetry */
-  --paper: #0b1118;
-  --surface: #121a24;
-  --surface-elevated: #17212e;
-  --subtle: #0e151e;
-  --row-hover: #182332;
-  --rule: #1f2b3a;
-  --rule-strong: #324256;
-  --grid-line: #1c2634;
-  --track-bg: #263344;
-  --ambient-glow: rgba(52, 211, 153, 0.09);
-  --tooltip-bg: rgba(18, 26, 36, 0.94);
+  /* Dark theme */
+  --paper: #161d26;
+  --surface: #1e2733;
+  --surface-elevated: #25303f;
+  --subtle: #1a222d;
+  --row-hover: #253040;
+  --rule: #2c3848;
+  --rule-strong: #3d4d61;
+  --card-border: #334155;
+  --card-border-width: 1px;
+  --grid-line: #283444;
+  --track-bg: #313f52;
+  --tooltip-bg: #222c3a;
 
-  --ink: #f1f5f9;
-  --ink-muted: #94a3b8;
-  --ink-dim: #64748b;
+  --ink: #e5ebf2;
+  --ink-muted: #9aa8b8;
+  --ink-dim: #748496;
 
-  --btn-active-bg: #f1f5f9;
-  --btn-active-fg: #0b1118;
+  --btn-active-bg: #e5ebf2;
+  --btn-active-fg: #161d26;
 
-  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 20px -6px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.04);
-  --shadow-pill: 0 1px 3px rgba(0, 0, 0, 0.45);
-  --shadow-popover: 0 16px 36px -6px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.28);
+  --shadow-pill: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-popover: 0 10px 24px -4px rgba(0, 0, 0, 0.45);
 
-  /* Luminous Dark Mode Accents */
-  --clean: #34d399;
-  --clean-soft: rgba(16, 185, 129, 0.14);
-  --clean-border: rgba(52, 211, 153, 0.32);
-  --fossil: #f97352;
-  --fossil-soft: rgba(249, 115, 82, 0.14);
-  --fossil-border: rgba(249, 115, 82, 0.32);
-  --solar: #fbbf24;
-  --wind: #22d3ee;
-  --hydro: #60a5fa;
-  --nuclear: #a78bfa;
-  --coal: #94a3b8;
+  /* Fuel and status colors */
+  --clean: #34c992;
+  --clean-soft: rgba(52, 201, 146, 0.12);
+  --clean-border: rgba(52, 201, 146, 0.28);
+  --fossil: #ea7356;
+  --fossil-soft: rgba(234, 115, 86, 0.12);
+  --fossil-border: rgba(234, 115, 86, 0.28);
+  --solar: #e8b038;
+  --wind: #29bdd4;
+  --hydro: #5b9cf5;
+  --nuclear: #9e82f3;
+  --coal: #8e9cad;
 }
 
 @layer base {
@@ -93,19 +95,12 @@
 
   body {
     background-color: var(--paper);
-    background-image: radial-gradient(
-      ellipse 85% 38% at 50% 0%,
-      var(--ambient-glow),
-      transparent 70%
-    );
-    background-repeat: no-repeat;
     color: var(--ink);
     font-family: var(--font-sans);
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     font-size: 14px;
     line-height: 1.5;
     margin: 0;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition: background-color 0.18s ease, color 0.18s ease;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -129,21 +124,19 @@
 
   .sheet {
     background-color: var(--surface);
-    border: 1px solid var(--rule);
-    border-radius: 12px;
+    border: var(--card-border-width, 1px) solid var(--card-border);
+    border-radius: 10px;
     box-shadow: var(--shadow-card);
-    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    transition: background-color 0.18s ease, border-color 0.18s ease;
   }
 
   .kpi-card {
     background-color: var(--surface);
-    border: 1px solid var(--rule);
-    border-radius: 12px;
+    border: var(--card-border-width, 1px) solid var(--card-border);
+    border-radius: 10px;
     box-shadow: var(--shadow-card);
-    padding: 0.95rem 1.05rem;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.15s ease, border-color 0.15s ease, background-color 0.2s ease;
+    padding: 0.9rem 1rem;
+    transition: border-color 0.15s ease, background-color 0.18s ease;
   }
 
   .kpi-card:hover {
@@ -154,24 +147,20 @@
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    padding: 0.42rem 0.78rem;
+    padding: 0.4rem 0.72rem;
     font-size: 0.75rem;
     font-weight: 500;
     color: var(--ink);
     background-color: var(--surface-elevated);
     border: 1px solid var(--rule-strong);
-    border-radius: 8px;
+    border-radius: 7px;
     cursor: pointer;
-    transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+    transition: background-color 0.14s ease, border-color 0.14s ease;
   }
 
   .btn-flat:hover {
     background-color: var(--subtle);
     border-color: var(--ink-muted);
-  }
-
-  .btn-flat:active {
-    transform: translateY(0.5px);
   }
 
   .btn-flat:focus-visible,
@@ -186,20 +175,20 @@
     display: inline-flex;
     flex-wrap: wrap;
     gap: 0.25rem;
-    padding: 0.25rem;
+    padding: 0.2rem;
     background-color: var(--subtle);
     border: 1px solid var(--rule);
-    border-radius: 10px;
+    border-radius: 8px;
   }
 
   .tab-pill {
-    padding: 0.4rem 0.85rem;
+    padding: 0.38rem 0.8rem;
     font-size: 0.76rem;
     font-weight: 500;
     color: var(--ink-muted);
-    border-radius: 7px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+    transition: color 0.14s ease, background-color 0.14s ease;
   }
 
   .tab-pill:hover {
@@ -213,7 +202,7 @@
     box-shadow: var(--shadow-pill);
   }
 
-  /* Tactile Sliders with Dynamic Progress Track */
+  /* Range sliders */
   input[type="range"].grid-slider {
     -webkit-appearance: none;
     appearance: none;
@@ -221,33 +210,34 @@
     height: 5px;
     background: linear-gradient(
       to right,
-      var(--slider-color, var(--clean)) 0%,
-      var(--slider-color, var(--clean)) var(--slider-pct, 0%),
-      var(--track-bg) var(--slider-pct, 0%),
+      var(--track-bg) 0%,
+      var(--track-bg) var(--slider-start, 0%),
+      var(--slider-color, var(--clean)) var(--slider-start, 0%),
+      var(--slider-color, var(--clean)) var(--slider-end, 0%),
+      var(--track-bg) var(--slider-end, 0%),
       var(--track-bg) 100%
     );
     border-radius: 9999px;
     outline: none;
     cursor: pointer;
-    transition: filter 0.15s ease;
   }
 
   input[type="range"].grid-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 15px;
-    height: 15px;
+    width: 14px;
+    height: 14px;
     border-radius: 9999px;
     background: var(--slider-color, var(--ink));
-    border: 2.5px solid var(--surface);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.28);
+    border: 2px solid var(--surface);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.26);
     cursor: pointer;
     transition: transform 0.12s ease, box-shadow 0.12s ease;
   }
 
   input[type="range"].grid-slider::-webkit-slider-thumb:hover {
-    transform: scale(1.14);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--slider-color, var(--clean)) 22%, transparent);
+    transform: scale(1.12);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--slider-color, var(--clean)) 20%, transparent);
   }
 
   input[type="range"].grid-slider:focus-visible::-webkit-slider-thumb {
@@ -255,24 +245,29 @@
   }
 
   input[type="range"].grid-slider::-moz-range-thumb {
-    width: 15px;
-    height: 15px;
+    width: 14px;
+    height: 14px;
     border-radius: 9999px;
     background: var(--slider-color, var(--ink));
-    border: 2.5px solid var(--surface);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.28);
+    border: 2px solid var(--surface);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.26);
     cursor: pointer;
     transition: transform 0.12s ease, box-shadow 0.12s ease;
   }
 
   input[type="range"].grid-slider::-moz-range-thumb:hover {
-    transform: scale(1.14);
+    transform: scale(1.12);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--slider-color, var(--clean)) 20%, transparent);
   }
 
-  /* Accounting-Style Data Table */
+  input[type="range"].grid-slider:focus-visible::-moz-range-thumb {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--slider-color, var(--clean)) 32%, transparent);
+  }
+
+  /* Data table */
   .table-frame {
-    border: 1px solid var(--rule);
-    border-radius: 10px;
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
     overflow-x: auto;
   }
 
@@ -284,11 +279,11 @@
   }
 
   .data-table th {
-    padding: 0.65rem 0.75rem;
+    padding: 0.6rem 0.7rem;
     font-size: 0.68rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.05em;
     color: var(--ink-muted);
     border-bottom: 1px solid var(--rule-strong);
     background-color: var(--subtle);
@@ -296,7 +291,7 @@
   }
 
   .data-table td {
-    padding: 0.6rem 0.75rem;
+    padding: 0.58rem 0.7rem;
     border-bottom: 1px solid var(--rule);
     font-family: var(--font-mono);
     font-variant-numeric: tabular-nums;
