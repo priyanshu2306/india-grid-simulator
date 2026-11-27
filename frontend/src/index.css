@@ -1,80 +1,123 @@
 @import "tailwindcss";
 
 :root {
+  color-scheme: light;
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  /* Default: Warm Stone (Low-Glare Matte Paper, Zero Pure White) */
-  --paper: #d5d3ca;
-  --surface: #e3e1d8;
-  --subtle: #cbc8be;
-  --row-hover: #dcd9cf;
-  --rule: #bab6aa;
-  --rule-strong: #9c978a;
-  --grid-line: #c7c3b8;
+  /* Light Theme: Daylight Alabaster & Crisp Slate */
+  --paper: #f2f5f9;
+  --surface: #ffffff;
+  --surface-elevated: #ffffff;
+  --subtle: #e9eef5;
+  --row-hover: #f6f8fc;
+  --rule: #e1e7ef;
+  --rule-strong: #cbd5e1;
+  --grid-line: #e6ecf2;
+  --track-bg: #dbe3ed;
+  --ambient-glow: rgba(16, 185, 129, 0.08);
+  --tooltip-bg: rgba(255, 255, 255, 0.94);
 
-  --ink: #1b1e21;
-  --ink-muted: #494f56;
-  --ink-dim: #666d76;
+  --ink: #0f172a;
+  --ink-muted: #475569;
+  --ink-dim: #64748b;
 
-  --btn-active-bg: #24292e;
-  --btn-active-fg: #e6e4dc;
+  --btn-active-bg: #0f172a;
+  --btn-active-fg: #f8fafc;
 
-  /* Muted Energy Sector Accents */
-  --clean: #0e6348;
-  --clean-soft: #cde0d6;
-  --clean-border: #9ec5b2;
-  --fossil: #a63d20;
-  --solar: #c26a08;
-  --wind: #0e6b64;
-  --hydro: #2358c4;
-  --nuclear: #6228ba;
-  --coal: #42474d;
+  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04), 0 6px 16px -4px rgba(15, 23, 42, 0.05);
+  --shadow-pill: 0 1px 3px rgba(15, 23, 42, 0.08);
+  --shadow-popover: 0 12px 28px -6px rgba(15, 23, 42, 0.14), 0 4px 10px -4px rgba(15, 23, 42, 0.08);
+
+  /* Energy Sector Accents */
+  --clean: #059669;
+  --clean-soft: #ecfdf5;
+  --clean-border: #a7f3d0;
+  --fossil: #d9482b;
+  --fossil-soft: #fef2f2;
+  --fossil-border: #fecaca;
+  --solar: #d97706;
+  --wind: #0891b2;
+  --hydro: #2563eb;
+  --nuclear: #7c3aed;
+  --coal: #475569;
 }
 
-:root[data-theme="dusk"] {
-  /* Soft Dusk (Dimmed Matte Slate, Zero Pitch Black) */
-  --paper: #242a32;
-  --surface: #2d343e;
-  --subtle: #353e4a;
-  --row-hover: #333c48;
-  --rule: #3f4956;
-  --rule-strong: #546172;
-  --grid-line: #3c4654;
+:root[data-theme="dark"] {
+  color-scheme: dark;
 
-  --ink: #dfe4ec;
-  --ink-muted: #a1acba;
-  --ink-dim: #7b8696;
+  /* Dark Theme: Midnight Obsidian & Luminous Grid Telemetry */
+  --paper: #0b1118;
+  --surface: #121a24;
+  --surface-elevated: #17212e;
+  --subtle: #0e151e;
+  --row-hover: #182332;
+  --rule: #1f2b3a;
+  --rule-strong: #324256;
+  --grid-line: #1c2634;
+  --track-bg: #263344;
+  --ambient-glow: rgba(52, 211, 153, 0.09);
+  --tooltip-bg: rgba(18, 26, 36, 0.94);
 
-  --btn-active-bg: #dfe4ec;
-  --btn-active-fg: #1d2229;
+  --ink: #f1f5f9;
+  --ink-muted: #94a3b8;
+  --ink-dim: #64748b;
 
-  /* Calmed Dusk Accents */
-  --clean: #4cc499;
-  --clean-soft: #243b35;
-  --clean-border: #335c50;
-  --fossil: #e0785a;
-  --solar: #dfa145;
-  --wind: #41b3a8;
-  --hydro: #6298e8;
-  --nuclear: #9e82e8;
-  --coal: #7c8796;
+  --btn-active-bg: #f1f5f9;
+  --btn-active-fg: #0b1118;
+
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 20px -6px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --shadow-pill: 0 1px 3px rgba(0, 0, 0, 0.45);
+  --shadow-popover: 0 16px 36px -6px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.06);
+
+  /* Luminous Dark Mode Accents */
+  --clean: #34d399;
+  --clean-soft: rgba(16, 185, 129, 0.14);
+  --clean-border: rgba(52, 211, 153, 0.32);
+  --fossil: #f97352;
+  --fossil-soft: rgba(249, 115, 82, 0.14);
+  --fossil-border: rgba(249, 115, 82, 0.32);
+  --solar: #fbbf24;
+  --wind: #22d3ee;
+  --hydro: #60a5fa;
+  --nuclear: #a78bfa;
+  --coal: #94a3b8;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
     background-color: var(--paper);
+    background-image: radial-gradient(
+      ellipse 85% 38% at 50% 0%,
+      var(--ambient-glow),
+      transparent 70%
+    );
+    background-repeat: no-repeat;
     color: var(--ink);
     font-family: var(--font-sans);
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     font-size: 14px;
     line-height: 1.5;
     margin: 0;
-    transition: background-color 0.15s ease, color 0.15s ease;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+    }
   }
 }
 
@@ -87,82 +130,152 @@
   .sheet {
     background-color: var(--surface);
     border: 1px solid var(--rule);
-    border-radius: 4px;
+    border-radius: 12px;
+    box-shadow: var(--shadow-card);
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .kpi-card {
+    background-color: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    box-shadow: var(--shadow-card);
+    padding: 0.95rem 1.05rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.15s ease, border-color 0.15s ease, background-color 0.2s ease;
+  }
+
+  .kpi-card:hover {
+    border-color: var(--rule-strong);
   }
 
   .btn-flat {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    padding: 0.4rem 0.7rem;
+    padding: 0.42rem 0.78rem;
     font-size: 0.75rem;
     font-weight: 500;
     color: var(--ink);
-    background-color: var(--surface);
+    background-color: var(--surface-elevated);
     border: 1px solid var(--rule-strong);
-    border-radius: 3px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.12s ease, border-color 0.12s ease;
+    transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
   }
 
   .btn-flat:hover {
     background-color: var(--subtle);
-    border-color: var(--ink);
+    border-color: var(--ink-muted);
   }
 
-  .tab-btn {
-    padding: 0.45rem 0.85rem;
-    font-size: 0.78rem;
+  .btn-flat:active {
+    transform: translateY(0.5px);
+  }
+
+  .btn-flat:focus-visible,
+  .tab-pill:focus-visible,
+  select:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--clean);
+    outline-offset: 2px;
+  }
+
+  .tab-group {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    background-color: var(--subtle);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+  }
+
+  .tab-pill {
+    padding: 0.4rem 0.85rem;
+    font-size: 0.76rem;
     font-weight: 500;
     color: var(--ink-muted);
-    border-bottom: 2px solid transparent;
+    border-radius: 7px;
     cursor: pointer;
-    transition: color 0.12s ease, border-color 0.12s ease;
+    transition: color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
   }
 
-  .tab-btn:hover {
+  .tab-pill:hover {
     color: var(--ink);
   }
 
-  .tab-btn.active {
+  .tab-pill.active {
     color: var(--ink);
     font-weight: 600;
-    border-bottom-color: var(--clean);
+    background-color: var(--surface-elevated);
+    box-shadow: var(--shadow-pill);
   }
 
-  /* Crisp Native Sliders */
+  /* Tactile Sliders with Dynamic Progress Track */
   input[type="range"].grid-slider {
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
-    height: 4px;
-    background: var(--rule-strong);
-    border-radius: 2px;
+    height: 5px;
+    background: linear-gradient(
+      to right,
+      var(--slider-color, var(--clean)) 0%,
+      var(--slider-color, var(--clean)) var(--slider-pct, 0%),
+      var(--track-bg) var(--slider-pct, 0%),
+      var(--track-bg) 100%
+    );
+    border-radius: 9999px;
     outline: none;
     cursor: pointer;
+    transition: filter 0.15s ease;
   }
 
   input[type="range"].grid-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 13px;
-    height: 13px;
-    border-radius: 2px;
-    background: var(--ink);
-    border: 1px solid var(--surface);
+    width: 15px;
+    height: 15px;
+    border-radius: 9999px;
+    background: var(--slider-color, var(--ink));
+    border: 2.5px solid var(--surface);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.28);
     cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+  }
+
+  input[type="range"].grid-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.14);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--slider-color, var(--clean)) 22%, transparent);
+  }
+
+  input[type="range"].grid-slider:focus-visible::-webkit-slider-thumb {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--slider-color, var(--clean)) 32%, transparent);
   }
 
   input[type="range"].grid-slider::-moz-range-thumb {
-    width: 13px;
-    height: 13px;
-    border-radius: 2px;
-    background: var(--ink);
-    border: 1px solid var(--surface);
+    width: 15px;
+    height: 15px;
+    border-radius: 9999px;
+    background: var(--slider-color, var(--ink));
+    border: 2.5px solid var(--surface);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.28);
     cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+  }
+
+  input[type="range"].grid-slider::-moz-range-thumb:hover {
+    transform: scale(1.14);
   }
 
   /* Accounting-Style Data Table */
+  .table-frame {
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    overflow-x: auto;
+  }
+
   .data-table {
     width: 100%;
     border-collapse: collapse;
@@ -171,21 +284,27 @@
   }
 
   .data-table th {
-    padding: 0.6rem 0.65rem;
+    padding: 0.65rem 0.75rem;
     font-size: 0.68rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
     color: var(--ink-muted);
-    border-bottom: 1.5px solid var(--ink-muted);
+    border-bottom: 1px solid var(--rule-strong);
     background-color: var(--subtle);
+    white-space: nowrap;
   }
 
   .data-table td {
-    padding: 0.58rem 0.65rem;
+    padding: 0.6rem 0.75rem;
     border-bottom: 1px solid var(--rule);
     font-family: var(--font-mono);
     font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .data-table tbody tr:last-child td {
+    border-bottom: none;
   }
 
   .data-table tbody tr:hover {

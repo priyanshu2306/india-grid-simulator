@@ -11,7 +11,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { Check, Download, RotateCcw, Share2 } from "lucide-react";
+import { Check, Download, Moon, RotateCcw, Share2, Sun, Zap } from "lucide-react";
 import modelData from "./data/modelData.json";
 import {
   SCENARIO_PRESETS,
@@ -49,6 +49,27 @@ const fmtNum = (val, decimals = 1) =>
 const fmtSigned = (val, decimals = 1) =>
   `${val > 0 ? "+" : ""}${fmtNum(val, decimals)}`;
 
+const sliderStyle = (val, min, max, color) => {
+  const pct = Math.min(100, Math.max(0, ((val - min) / (max - min)) * 100));
+  return {
+    "--slider-pct": `${pct}%`,
+    "--slider-color": color,
+  };
+};
+
+function getInitialTheme() {
+  try {
+    const saved = localStorage.getItem("india-grid-theme");
+    if (saved === "light" || saved === "dark") return saved;
+    if (window.matchMedia?.("(prefers-color-scheme: dark)").matches) {
+      return "dark";
+    }
+  } catch {
+    // Ignore storage access issues
+  }
+  return "light";
+}
+
 function getInitialState() {
   const fallback = SCENARIO_PRESETS[0];
   try {
@@ -82,31 +103,31 @@ function ChartTooltip({ active, payload, label, unit }) {
   if (!active || !payload || !payload.length) return null;
   return (
     <div
-      className="border px-3 py-2 text-xs"
+      className="rounded-[10px] border px-3.5 py-2.5 text-xs backdrop-blur-md"
       style={{
-        backgroundColor: "var(--surface)",
+        backgroundColor: "var(--tooltip-bg)",
         borderColor: "var(--rule-strong)",
         color: "var(--ink)",
-        borderRadius: "3px",
+        boxShadow: "var(--shadow-popover)",
       }}
     >
-      <div className="font-mono-num font-semibold border-b pb-1 mb-1.5 border-[var(--rule)]">
+      <div className="font-mono-num font-semibold border-b pb-1.5 mb-2 border-[var(--rule)]">
         {label}
       </div>
-      <div className="space-y-1">
+      <div className="space-y-1.5">
         {payload.map((entry) => (
           <div
             key={entry.dataKey}
             className="flex items-center justify-between gap-5"
           >
-            <span className="flex items-center gap-1.5 text-[var(--ink-muted)]">
+            <span className="flex items-center gap-2 text-[var(--ink-muted)]">
               <span
-                className="inline-block h-2 w-2 rounded-xs"
+                className="inline-block h-2 w-2 rounded-full"
                 style={{ backgroundColor: entry.color }}
               />
               {entry.name}
             </span>
-            <span className="font-mono-num font-semibold">
+            <span className="font-mono-num font-semibold text-[var(--ink)]">
               {fmtNum(entry.value, 1)} {unit}
             </span>
           </div>
@@ -137,14 +158,18 @@ export default function App() {
   const [reCufBoostPct, setReCufBoostPct] = useState(initial.reCufBoostPct);
   const [overrides, setOverrides] = useState(initial.overrides);
 
-  
-  const [theme, setTheme] = useState("stone");
+  const [theme, setTheme] = useState(getInitialTheme);
   const [activeTab, setActiveTab] = useState("emissions");
   const [showAllYears, setShowAllYears] = useState(false);
   const [copiedMsg, setCopiedMsg] = useState("");
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem("india-grid-theme", theme);
+    } catch {
+      // Ignore storage access issues
+    }
   }, [theme]);
 
   useEffect(() => {
@@ -299,41 +324,63 @@ export default function App() {
     <div className="min-h-screen">
       {/* TOP MASTHEAD BAR */}
       <header className="bg-[var(--surface)] border-b border-[var(--rule)]">
-        <div className="mx-auto max-w-[1380px] px-4 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-2.5 text-[11px] font-medium uppercase tracking-wider text-[var(--ink-muted)]">
-              <span>India Power Sector</span>
-              <span className="text-[var(--rule-strong)]">/</span>
-              <span>Ember 2019–2024 Calibration</span>
-              <span className="text-[var(--rule-strong)]">/</span>
-              <span className="font-mono-num">2025–2040</span>
+        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-3.5">
+            <div
+              className="hidden sm:flex h-10 w-10 shrink-0 items-center justify-center rounded-[10px] border"
+              style={{
+                backgroundColor: "var(--clean-soft)",
+                borderColor: "var(--clean-border)",
+                color: "var(--clean)",
+              }}
+            >
+              <Zap size={19} strokeWidth={2.2} />
             </div>
-            <h1 className="mt-0.5 text-xl sm:text-2xl font-bold tracking-tight text-[var(--ink)]">
-              India Grid &amp; Emissions Workbench
-            </h1>
+            <div>
+              <div className="flex flex-wrap items-center gap-2 text-[11px] font-medium uppercase tracking-wider text-[var(--ink-muted)]">
+                <span>India Power Sector</span>
+                <span className="text-[var(--rule-strong)]">/</span>
+                <span>Ember 2019–2024 Calibration</span>
+                <span className="text-[var(--rule-strong)]">/</span>
+                <span className="font-mono-num text-[var(--clean)] font-semibold">
+                  2025–2040
+                </span>
+              </div>
+              <h1 className="mt-0.5 text-xl sm:text-2xl font-bold tracking-tight text-[var(--ink)]">
+                India Grid &amp; Emissions Workbench
+              </h1>
+            </div>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
             {/* Theme Toggle */}
-            <div className="inline-flex rounded-xs border border-[var(--rule-strong)] overflow-hidden mr-1">
+            <div
+              className="inline-flex rounded-[9px] border border-[var(--rule)] bg-[var(--subtle)] p-0.5 mr-1"
+              role="group"
+              aria-label="Color theme"
+            >
               {[
-                { id: "stone", label: "Light Theme" },
-                { id: "dusk", label: "Dark Theme" },
+                { id: "light", label: "Light", icon: Sun },
+                { id: "dark", label: "Dark", icon: Moon },
               ].map((t) => {
                 const active = theme === t.id;
+                const Icon = t.icon;
                 return (
                   <button
                     key={t.id}
                     type="button"
+                    aria-pressed={active}
                     onClick={() => setTheme(t.id)}
-                    className="px-2.5 py-1 text-xs font-medium cursor-pointer transition"
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-[7px] cursor-pointer transition"
                     style={{
                       backgroundColor: active
-                        ? "var(--btn-active-bg)"
-                        : "var(--surface)",
-                      color: active ? "var(--btn-active-fg)" : "var(--ink-muted)",
+                        ? "var(--surface-elevated)"
+                        : "transparent",
+                      color: active ? "var(--ink)" : "var(--ink-muted)",
+                      boxShadow: active ? "var(--shadow-pill)" : "none",
                     }}
                   >
+                    <Icon size={13} />
                     {t.label}
                   </button>
                 );
@@ -341,7 +388,7 @@ export default function App() {
             </div>
 
             <button type="button" onClick={handleShare} className="btn-flat">
-              {copiedMsg ? <Check size={13} /> : <Share2 size={13} />}
+              {copiedMsg ? <Check size={13} className="text-[var(--clean)]" /> : <Share2 size={13} />}
               {copiedMsg || "Share"}
             </button>
             <button type="button" onClick={handleExportCsv} className="btn-flat">
@@ -357,10 +404,10 @@ export default function App() {
 
         {/* SCENARIO PRESET STRIP */}
         <div className="border-t border-[var(--rule)] bg-[var(--subtle)]">
-          <div className="mx-auto max-w-[1380px] px-4 sm:px-6 py-2 flex flex-wrap items-center justify-between gap-3">
+          <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-3">
             <div className="flex flex-wrap items-center gap-1.5">
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-[var(--ink-muted)] mr-2">
-                Preset:
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-[var(--ink-muted)] mr-1.5">
+                Preset
               </span>
               {SCENARIO_PRESETS.map((preset) => {
                 const isSelected = presetId === preset.id;
@@ -368,8 +415,9 @@ export default function App() {
                   <button
                     key={preset.id}
                     type="button"
+                    aria-pressed={isSelected}
                     onClick={() => selectPreset(preset)}
-                    className="px-3 py-1.5 text-xs font-medium rounded-xs border transition cursor-pointer"
+                    className="px-3 py-1.5 text-xs font-medium rounded-lg border transition cursor-pointer"
                     style={{
                       backgroundColor: isSelected
                         ? "var(--btn-active-bg)"
@@ -378,6 +426,7 @@ export default function App() {
                       borderColor: isSelected
                         ? "var(--btn-active-bg)"
                         : "var(--rule-strong)",
+                      boxShadow: isSelected ? "var(--shadow-pill)" : "none",
                     }}
                   >
                     {preset.label}
@@ -386,7 +435,7 @@ export default function App() {
               })}
               {presetId === "custom" && (
                 <span
-                  className="ml-1 px-2.5 py-1 text-[11px] font-mono-num font-medium border rounded-xs"
+                  className="ml-1 px-2.5 py-1 text-[11px] font-mono-num font-semibold border rounded-lg"
                   style={{
                     backgroundColor: "var(--clean-soft)",
                     color: "var(--clean)",
@@ -398,9 +447,19 @@ export default function App() {
               )}
             </div>
 
-            <div className="text-xs text-[var(--ink-muted)] font-mono-num">
-              2040 vs Baseline:{" "}
+            <div
+              className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-mono-num"
+              style={{
+                backgroundColor:
+                  finalDeltaCo2 <= 0 ? "var(--clean-soft)" : "var(--fossil-soft)",
+                borderColor:
+                  finalDeltaCo2 <= 0 ? "var(--clean-border)" : "var(--fossil-border)",
+                color: "var(--ink-muted)",
+              }}
+            >
+              <span>2040 vs Baseline</span>
               <strong
+                className="font-semibold"
                 style={{
                   color:
                     finalDeltaCo2 <= 0 ? "var(--clean)" : "var(--fossil)",
@@ -414,15 +473,18 @@ export default function App() {
       </header>
 
       {/* MAIN TWO-COLUMN WORKBENCH */}
-      <main className="mx-auto max-w-[1380px] px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      <main className="mx-auto max-w-[1400px] px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* LEFT STICKY CONTROL RAIL */}
         <aside className="lg:col-span-4 xl:col-span-3 lg:sticky lg:top-6 space-y-4">
-          <div className="sheet p-4 space-y-5">
-            <div className="border-b border-[var(--rule)] pb-3">
-              <h2 className="text-xs font-bold uppercase tracking-wider text-[var(--ink)]">
-                Model Controls
-              </h2>
-              <p className="mt-1 text-xs text-[var(--ink-muted)]">
+          <div className="sheet p-4 sm:p-5 space-y-5">
+            <div className="border-b border-[var(--rule)] pb-3.5">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xs font-bold uppercase tracking-wider text-[var(--ink)]">
+                  Model Controls
+                </h2>
+                <span className="h-2 w-2 rounded-full bg-[var(--clean)]" />
+              </div>
+              <p className="mt-1.5 text-xs leading-relaxed text-[var(--ink-muted)]">
                 {activePresetObj
                   ? activePresetObj.description
                   : "Modified custom parameters relative to 2022–24 calibrated averages."}
@@ -431,8 +493,11 @@ export default function App() {
 
             {/* Demand Growth */}
             <div>
-              <div className="flex items-baseline justify-between mb-1.5">
-                <label className="text-xs font-semibold text-[var(--ink)]">
+              <div className="flex items-baseline justify-between mb-2">
+                <label
+                  htmlFor="demand-growth-slider"
+                  className="text-xs font-semibold text-[var(--ink)]"
+                >
                   Demand Growth
                 </label>
                 <span className="font-mono-num text-xs font-semibold text-[var(--fossil)]">
@@ -440,18 +505,20 @@ export default function App() {
                 </span>
               </div>
               <input
+                id="demand-growth-slider"
                 type="range"
                 className="grid-slider"
                 min="3.5"
                 max="8.0"
                 step="0.1"
                 value={demandGrowthPct}
+                style={sliderStyle(demandGrowthPct, 3.5, 8.0, "var(--fossil)")}
                 onChange={(e) => {
                   setPresetId("custom");
                   setDemandGrowthPct(Number(e.target.value));
                 }}
               />
-              <div className="mt-1 flex justify-between text-[11px] text-[var(--ink-dim)] font-mono-num">
+              <div className="mt-1.5 flex justify-between text-[11px] text-[var(--ink-dim)] font-mono-num">
                 <span>2024: {fmtNum(metadata.demand_anchor_bu, 0)} BU</span>
                 <span>2040: {fmtNum(summary.finalYear.demand_bu, 0)} BU</span>
               </div>
@@ -465,27 +532,33 @@ export default function App() {
               {EDITABLE_FUELS.map((f) => {
                 const val =
                   overrides[f.key] ?? params[f.key]["recent_additions_gw_yr"];
+                const sliderId = `fuel-slider-${f.key}`;
                 return (
                   <div key={f.key}>
-                    <div className="flex items-center justify-between text-xs mb-1">
-                      <span className="flex items-center gap-1.5 font-medium">
+                    <div className="flex items-center justify-between text-xs mb-1.5">
+                      <label
+                        htmlFor={sliderId}
+                        className="flex items-center gap-2 font-medium text-[var(--ink)]"
+                      >
                         <span
-                          className="inline-block h-2 w-2 rounded-xs"
+                          className="inline-block h-2.5 w-2.5 rounded-full"
                           style={{ backgroundColor: f.color }}
                         />
                         {f.label}
-                      </span>
+                      </label>
                       <span className="font-mono-num font-semibold text-[var(--ink)]">
                         {fmtSigned(val, 1)} GW
                       </span>
                     </div>
                     <input
+                      id={sliderId}
                       type="range"
                       className="grid-slider"
                       min={f.min}
                       max={f.max}
                       step={f.step}
                       value={val}
+                      style={sliderStyle(val, f.min, f.max, f.color)}
                       onChange={(e) =>
                         updateFuelOverride(f.key, Number(e.target.value))
                       }
@@ -497,7 +570,7 @@ export default function App() {
 
             {/* Coal Quick Policy */}
             <div className="border-t border-[var(--rule)] pt-4">
-              <div className="text-[11px] font-bold uppercase tracking-wider text-[var(--ink-muted)] mb-2">
+              <div className="text-[11px] font-bold uppercase tracking-wider text-[var(--ink-muted)] mb-2.5">
                 Coal Policy Shortcut
               </div>
               <div className="grid grid-cols-3 gap-1.5">
@@ -509,8 +582,9 @@ export default function App() {
                     <button
                       key={pol.id}
                       type="button"
+                      aria-pressed={isActive}
                       onClick={() => applyCoalPolicy(pol.value)}
-                      className="border rounded-xs py-1.5 px-2 text-left transition cursor-pointer"
+                      className="border rounded-lg py-2 px-2 text-left transition cursor-pointer"
                       style={{
                         borderColor: isActive
                           ? "var(--ink)"
@@ -518,6 +592,7 @@ export default function App() {
                         backgroundColor: isActive
                           ? "var(--subtle)"
                           : "var(--surface)",
+                        boxShadow: isActive ? "var(--shadow-pill)" : "none",
                       }}
                     >
                       <div className="text-[11px] font-semibold text-[var(--ink)]">
@@ -534,16 +609,20 @@ export default function App() {
 
             {/* Storage Boost */}
             <div className="border-t border-[var(--rule)] pt-4">
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-[var(--ink-muted)] mb-1.5">
+              <label
+                htmlFor="re-storage-select"
+                className="block text-[11px] font-bold uppercase tracking-wider text-[var(--ink-muted)] mb-2"
+              >
                 RE Storage / CUF Boost
               </label>
               <select
+                id="re-storage-select"
                 value={reCufBoostPct}
                 onChange={(e) => {
                   setPresetId("custom");
                   setReCufBoostPct(Number(e.target.value));
                 }}
-                className="w-full border border-[var(--rule-strong)] bg-[var(--surface)] rounded-xs px-2.5 py-1.5 text-xs text-[var(--ink)]"
+                className="w-full border border-[var(--rule-strong)] bg-[var(--surface-elevated)] rounded-lg px-3 py-2 text-xs text-[var(--ink)] cursor-pointer"
               >
                 {STORAGE_OPTIONS.map((opt) => (
                   <option key={opt.value} value={opt.value}>
@@ -554,7 +633,7 @@ export default function App() {
             </div>
           </div>
 
-          <div className="px-1 text-[11px] leading-relaxed text-[var(--ink-dim)]">
+          <div className="px-1.5 text-[11px] leading-relaxed text-[var(--ink-dim)]">
             <strong className="text-[var(--ink-muted)]">Note:</strong>{" "}
             {metadata.methodological_note}
           </div>
@@ -562,68 +641,80 @@ export default function App() {
 
         {/* RIGHT MAIN ANALYTICAL CANVAS */}
         <div className="lg:col-span-8 xl:col-span-9 space-y-5">
-          {/* FLAT BORDER-DIVIDED KPI STRIP */}
-          <section className="sheet grid grid-cols-2 md:grid-cols-5 divide-y md:divide-y-0 md:divide-x divide-[var(--rule)]">
-            <div className="p-4">
+          {/* ELEVATED KPI CARDS */}
+          <section className="grid grid-cols-2 md:grid-cols-5 gap-3.5">
+            <div className="kpi-card">
               <div className="text-[11px] font-semibold uppercase tracking-wider text-[var(--ink-muted)]">
                 2040 CO₂
               </div>
-              <div className="mt-1 font-mono-num text-2xl font-bold text-[var(--ink)]">
+              <div className="mt-1.5 font-mono-num text-2xl font-bold tracking-tight text-[var(--ink)]">
                 {fmtNum(summary.finalYear.total_co2_mt, 0)}
                 <span className="ml-1 text-xs font-normal text-[var(--ink-muted)]">
                   MT
                 </span>
               </div>
-              <div className="mt-1 text-[11px] font-mono-num text-[var(--ink-dim)]">
+              <div className="mt-1.5 text-[11px] font-mono-num text-[var(--ink-dim)]">
                 Range {fmtNum(rangeMin, 0)}–{fmtNum(rangeMax, 0)}
               </div>
             </div>
 
-            <div className="p-4">
+            <div className="kpi-card">
               <div className="text-[11px] font-semibold uppercase tracking-wider text-[var(--ink-muted)]">
                 Peak Year
               </div>
-              <div className="mt-1 font-mono-num text-2xl font-bold text-[var(--ink)]">
+              <div className="mt-1.5 font-mono-num text-2xl font-bold tracking-tight text-[var(--ink)]">
                 {summary.isPeakedBefore2040 ? summary.peakYear : "None"}
               </div>
-              <div className="mt-1 text-[11px] font-mono-num text-[var(--ink-dim)]">
+              <div className="mt-1.5 text-[11px] font-mono-num text-[var(--ink-dim)]">
                 Max {fmtNum(summary.peakCo2Mt, 0)} MT
               </div>
             </div>
 
-            <div className="p-4">
+            <div
+              className="kpi-card"
+              style={{ borderTop: "2.5px solid var(--clean)" }}
+            >
               <div className="text-[11px] font-semibold uppercase tracking-wider text-[var(--ink-muted)]">
                 2040 Clean Share
               </div>
-              <div className="mt-1 font-mono-num text-2xl font-bold text-[var(--clean)]">
+              <div className="mt-1.5 font-mono-num text-2xl font-bold tracking-tight text-[var(--clean)]">
                 {fmtNum(summary.finalYear.clean_share_pct, 1)}%
               </div>
-              <div className="mt-1 text-[11px] font-mono-num text-[var(--ink-dim)]">
+              <div className="mt-1.5 text-[11px] font-mono-num text-[var(--ink-dim)]">
                 ≥50%: {summary.fiftyPctYear ?? "Post-2040"}
               </div>
             </div>
 
-            <div className="p-4">
+            <div className="kpi-card">
               <div className="text-[11px] font-semibold uppercase tracking-wider text-[var(--ink-muted)]">
                 Grid Intensity
               </div>
-              <div className="mt-1 font-mono-num text-2xl font-bold text-[var(--ink)]">
+              <div className="mt-1.5 font-mono-num text-2xl font-bold tracking-tight text-[var(--ink)]">
                 {fmtNum(summary.finalYear.grid_intensity_gco2_kwh, 0)}
                 <span className="ml-1 text-xs font-normal text-[var(--ink-muted)]">
                   g/kWh
                 </span>
               </div>
-              <div className="mt-1 text-[11px] font-mono-num text-[var(--ink-dim)]">
+              <div className="mt-1.5 text-[11px] font-mono-num text-[var(--ink-dim)]">
                 2024: {fmtNum(hist2024Intensity, 0)} g/kWh
               </div>
             </div>
 
-            <div className="p-4 col-span-2 md:col-span-1">
+            <div
+              className="kpi-card col-span-2 md:col-span-1"
+              style={{
+                borderTop: `2.5px solid ${
+                  summary.finalYear.supply_gap_bu >= 0
+                    ? "var(--clean)"
+                    : "var(--fossil)"
+                }`,
+              }}
+            >
               <div className="text-[11px] font-semibold uppercase tracking-wider text-[var(--ink-muted)]">
                 2040 Supply Gap
               </div>
               <div
-                className="mt-1 font-mono-num text-2xl font-bold"
+                className="mt-1.5 font-mono-num text-2xl font-bold tracking-tight"
                 style={{
                   color:
                     summary.finalYear.supply_gap_bu >= 0
@@ -636,7 +727,7 @@ export default function App() {
                   BU
                 </span>
               </div>
-              <div className="mt-1 text-[11px] font-mono-num text-[var(--ink-dim)]">
+              <div className="mt-1.5 text-[11px] font-mono-num text-[var(--ink-dim)]">
                 Cap: {fmtNum(summary.finalYear.total_capacity_gw, 0)} GW
               </div>
             </div>
@@ -644,12 +735,14 @@ export default function App() {
 
           {/* PRIMARY 3-TAB CHART SHEET */}
           <section className="sheet">
-            <div className="px-4 pt-3 border-b border-[var(--rule)] flex flex-wrap items-center justify-between gap-2">
-              <div className="flex items-center gap-1">
+            <div className="px-4 sm:px-5 py-3 border-b border-[var(--rule)] flex flex-wrap items-center justify-between gap-3">
+              <div className="tab-group" role="tablist" aria-label="Simulation views">
                 <button
                   type="button"
+                  role="tab"
+                  aria-selected={activeTab === "emissions"}
                   onClick={() => setActiveTab("emissions")}
-                  className={`tab-btn ${
+                  className={`tab-pill ${
                     activeTab === "emissions" ? "active" : ""
                   }`}
                 >
@@ -657,40 +750,44 @@ export default function App() {
                 </button>
                 <button
                   type="button"
+                  role="tab"
+                  aria-selected={activeTab === "power"}
                   onClick={() => setActiveTab("power")}
-                  className={`tab-btn ${activeTab === "power" ? "active" : ""}`}
+                  className={`tab-pill ${activeTab === "power" ? "active" : ""}`}
                 >
                   Generation vs. Demand (BU)
                 </button>
                 <button
                   type="button"
+                  role="tab"
+                  aria-selected={activeTab === "capacity"}
                   onClick={() => setActiveTab("capacity")}
-                  className={`tab-btn ${
+                  className={`tab-pill ${
                     activeTab === "capacity" ? "active" : ""
                   }`}
                 >
                   Installed Capacity Mix (GW)
                 </button>
               </div>
-              <span className="text-[11px] font-mono-num text-[var(--ink-dim)] pb-2">
+              <span className="text-[11px] font-mono-num text-[var(--ink-dim)]">
                 Annual model step · 2025–2040
               </span>
             </div>
 
             <div className="p-4 sm:p-5">
               {/* Inline Legend */}
-              <div className="mb-3 flex flex-wrap gap-4 text-xs text-[var(--ink-muted)]">
+              <div className="mb-3.5 flex flex-wrap gap-4 text-xs text-[var(--ink-muted)]">
                 {activeTab === "emissions" && (
                   <>
-                    <span className="inline-flex items-center gap-1.5">
-                      <span className="h-[3px] w-4 bg-[var(--clean)]" />
+                    <span className="inline-flex items-center gap-2">
+                      <span className="h-[3px] w-4 rounded-full bg-[var(--clean)]" />
                       Active Scenario (MT CO₂)
                     </span>
-                    <span className="inline-flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-2">
                       <span className="w-4 border-t-2 border-dashed border-[var(--fossil)]" />
                       Baseline Pace (MT CO₂)
                     </span>
-                    <span className="inline-flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-2">
                       <span className="w-4 border-t border-dotted border-[var(--ink-dim)]" />
                       2024 Actual ({fmtNum(hist2024Co2Mt, 0)} MT)
                     </span>
@@ -698,11 +795,11 @@ export default function App() {
                 )}
                 {activeTab === "power" && (
                   <>
-                    <span className="inline-flex items-center gap-1.5">
-                      <span className="h-[3px] w-4 bg-[var(--clean)]" />
+                    <span className="inline-flex items-center gap-2">
+                      <span className="h-[3px] w-4 rounded-full bg-[var(--clean)]" />
                       Total Generation (BU)
                     </span>
-                    <span className="inline-flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-2">
                       <span className="w-4 border-t-2 border-dashed border-[var(--fossil)]" />
                       Projected Demand (BU)
                     </span>
@@ -712,10 +809,10 @@ export default function App() {
                   EDITABLE_FUELS.map((f) => (
                     <span
                       key={f.key}
-                      className="inline-flex items-center gap-1.5"
+                      className="inline-flex items-center gap-2"
                     >
                       <span
-                        className="h-2.5 w-2.5 rounded-xs"
+                        className="h-2.5 w-2.5 rounded-full"
                         style={{ backgroundColor: f.color }}
                       />
                       {f.label}
@@ -729,14 +826,41 @@ export default function App() {
                     data={combinedRows}
                     margin={{ top: 10, right: 12, left: 0, bottom: 0 }}
                   >
+                    <defs>
+                      <linearGradient id="gradClean" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="var(--clean)" stopOpacity={0.28} />
+                        <stop offset="95%" stopColor="var(--clean)" stopOpacity={0.02} />
+                      </linearGradient>
+                      <linearGradient id="gradSolar" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="var(--solar)" stopOpacity={0.85} />
+                        <stop offset="100%" stopColor="var(--solar)" stopOpacity={0.45} />
+                      </linearGradient>
+                      <linearGradient id="gradWind" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="var(--wind)" stopOpacity={0.82} />
+                        <stop offset="100%" stopColor="var(--wind)" stopOpacity={0.42} />
+                      </linearGradient>
+                      <linearGradient id="gradNuclear" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="var(--nuclear)" stopOpacity={0.78} />
+                        <stop offset="100%" stopColor="var(--nuclear)" stopOpacity={0.4} />
+                      </linearGradient>
+                      <linearGradient id="gradHydro" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="var(--hydro)" stopOpacity={0.78} />
+                        <stop offset="100%" stopColor="var(--hydro)" stopOpacity={0.4} />
+                      </linearGradient>
+                      <linearGradient id="gradCoal" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="var(--coal)" stopOpacity={0.82} />
+                        <stop offset="100%" stopColor="var(--coal)" stopOpacity={0.48} />
+                      </linearGradient>
+                    </defs>
+
                     <CartesianGrid
                       stroke="var(--grid-line)"
-                      strokeDasharray="2 2"
+                      strokeDasharray="3 3"
                       vertical={false}
                     />
                     <XAxis
                       dataKey="Year"
-                      stroke="var(--ink-dim)"
+                      stroke="var(--rule-strong)"
                       tick={{ fill: "var(--ink-muted)", fontSize: 11 }}
                       tickLine={false}
                     />
@@ -784,8 +908,7 @@ export default function App() {
                           name="Active CO₂"
                           stroke="var(--clean)"
                           strokeWidth={2.5}
-                          fill="var(--clean)"
-                          fillOpacity={0.12}
+                          fill="url(#gradClean)"
                           dot={false}
                         />
                       </>
@@ -809,8 +932,7 @@ export default function App() {
                           name="Total Generation"
                           stroke="var(--clean)"
                           strokeWidth={2.5}
-                          fill="var(--clean)"
-                          fillOpacity={0.14}
+                          fill="url(#gradClean)"
                           dot={false}
                         />
                       </>
@@ -824,8 +946,8 @@ export default function App() {
                           dataKey="coal_gw"
                           name="Coal"
                           stroke="var(--coal)"
-                          fill="var(--coal)"
-                          fillOpacity={0.8}
+                          strokeWidth={1.5}
+                          fill="url(#gradCoal)"
                         />
                         <Area
                           type="monotone"
@@ -833,8 +955,8 @@ export default function App() {
                           dataKey="hydro_gw"
                           name="Hydro"
                           stroke="var(--hydro)"
-                          fill="var(--hydro)"
-                          fillOpacity={0.75}
+                          strokeWidth={1.5}
+                          fill="url(#gradHydro)"
                         />
                         <Area
                           type="monotone"
@@ -842,8 +964,8 @@ export default function App() {
                           dataKey="nuclear_gw"
                           name="Nuclear"
                           stroke="var(--nuclear)"
-                          fill="var(--nuclear)"
-                          fillOpacity={0.75}
+                          strokeWidth={1.5}
+                          fill="url(#gradNuclear)"
                         />
                         <Area
                           type="monotone"
@@ -851,8 +973,8 @@ export default function App() {
                           dataKey="wind_gw"
                           name="Wind"
                           stroke="var(--wind)"
-                          fill="var(--wind)"
-                          fillOpacity={0.78}
+                          strokeWidth={1.5}
+                          fill="url(#gradWind)"
                         />
                         <Area
                           type="monotone"
@@ -860,8 +982,8 @@ export default function App() {
                           dataKey="solar_gw"
                           name="Solar PV"
                           stroke="var(--solar)"
-                          fill="var(--solar)"
-                          fillOpacity={0.82}
+                          strokeWidth={1.5}
+                          fill="url(#gradSolar)"
                         />
                       </>
                     )}
@@ -873,12 +995,12 @@ export default function App() {
 
           {/* SECONDARY CHART: CLEAN SHARE BAR */}
           <section className="sheet p-4 sm:p-5">
-            <div className="flex flex-wrap items-baseline justify-between gap-2 mb-3">
+            <div className="flex flex-wrap items-baseline justify-between gap-2 mb-3.5">
               <div>
                 <h2 className="text-sm font-bold text-[var(--ink)]">
                   Clean Electricity Share (% of Total Generation)
                 </h2>
-                <p className="text-xs text-[var(--ink-muted)]">
+                <p className="mt-0.5 text-xs text-[var(--ink-muted)]">
                   Solar, wind, hydro, nuclear, and bioenergy combined against the
                   50% majority line.
                 </p>
@@ -891,14 +1013,20 @@ export default function App() {
                   data={combinedRows}
                   margin={{ top: 8, right: 12, left: 0, bottom: 0 }}
                 >
+                  <defs>
+                    <linearGradient id="cleanBarGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="var(--clean)" stopOpacity={0.95} />
+                      <stop offset="100%" stopColor="var(--clean)" stopOpacity={0.62} />
+                    </linearGradient>
+                  </defs>
                   <CartesianGrid
                     stroke="var(--grid-line)"
-                    strokeDasharray="2 2"
+                    strokeDasharray="3 3"
                     vertical={false}
                   />
                   <XAxis
                     dataKey="Year"
-                    stroke="var(--ink-dim)"
+                    stroke="var(--rule-strong)"
                     tick={{ fill: "var(--ink-muted)", fontSize: 11 }}
                     tickLine={false}
                   />
@@ -915,13 +1043,13 @@ export default function App() {
                   <ReferenceLine
                     y={50}
                     stroke="var(--ink-muted)"
-                    strokeDasharray="3 3"
+                    strokeDasharray="4 4"
                   />
                   <Bar
                     dataKey="clean_share_pct"
                     name="Clean Share"
-                    fill="var(--clean)"
-                    radius={[2, 2, 0, 0]}
+                    fill="url(#cleanBarGrad)"
+                    radius={[4, 4, 0, 0]}
                   />
                 </BarChart>
               </ResponsiveContainer>
@@ -930,7 +1058,7 @@ export default function App() {
 
           {/* ANNUAL LEDGER TABLE */}
           <section className="sheet p-4 sm:p-5">
-            <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <div className="flex flex-wrap items-center justify-between gap-2 mb-3.5">
               <h2 className="text-sm font-bold text-[var(--ink)]">
                 Annual Projection Ledger (2025–2040)
               </h2>
@@ -943,7 +1071,7 @@ export default function App() {
               </button>
             </div>
 
-            <div className="overflow-x-auto">
+            <div className="table-frame">
               <table className="data-table">
                 <thead>
                   <tr>
@@ -967,6 +1095,7 @@ export default function App() {
                       <td>{fmtNum(row.total_gen_bu, 1)}</td>
                       <td>{fmtNum(row.demand_bu, 1)}</td>
                       <td
+                        className="font-medium"
                         style={{
                           color:
                             row.supply_gap_bu >= 0
@@ -983,6 +1112,7 @@ export default function App() {
                         {fmtNum(row.total_co2_mt, 1)}
                       </td>
                       <td
+                        className="font-medium"
                         style={{
                           color:
                             row.delta_co2_mt <= 0
