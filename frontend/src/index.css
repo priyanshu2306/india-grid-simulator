@@ -4,61 +4,61 @@
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  /* Default: Warm Stone (Low-Glare Matte Paper, Zero Pure White) */
-  --paper: #d5d3ca;
-  --surface: #e3e1d8;
-  --subtle: #cbc8be;
-  --row-hover: #dcd9cf;
-  --rule: #bab6aa;
-  --rule-strong: #9c978a;
-  --grid-line: #c7c3b8;
+  /* Linen */
+  color-scheme: light;
+  --paper: #d6d4ca;
+  --surface: #e6e3d9;
+  --subtle: #cccac1;
+  --row-hover: #dad8cf;
+  --rule: #b7b6ad;
+  --rule-strong: #85867f;
+  --grid-line: #c3c4bc;
 
-  --ink: #1b1e21;
-  --ink-muted: #494f56;
-  --ink-dim: #666d76;
+  --ink: #272b2c;
+  --ink-muted: #454e52;
+  --ink-dim: #535b5e;
 
-  --btn-active-bg: #24292e;
-  --btn-active-fg: #e6e4dc;
+  --btn-active-bg: #384e60;
+  --btn-active-fg: #f5f0e5;
 
-  /* Muted Energy Sector Accents */
-  --clean: #0e6348;
-  --clean-soft: #cde0d6;
-  --clean-border: #9ec5b2;
-  --fossil: #a63d20;
-  --solar: #c26a08;
-  --wind: #0e6b64;
-  --hydro: #2358c4;
-  --nuclear: #6228ba;
-  --coal: #42474d;
+  --clean: #22675b;
+  --clean-soft: #ccded2;
+  --clean-border: #89ab9b;
+  --fossil: #93412e;
+  --solar: #a56e25;
+  --wind: #337b70;
+  --hydro: #416f98;
+  --nuclear: #82658c;
+  --coal: #535e66;
 }
 
 :root[data-theme="dusk"] {
-  /* Soft Dusk (Dimmed Matte Slate, Zero Pitch Black) */
-  --paper: #242a32;
-  --surface: #2d343e;
-  --subtle: #353e4a;
-  --row-hover: #333c48;
-  --rule: #3f4956;
-  --rule-strong: #546172;
-  --grid-line: #3c4654;
+  /* Ink */
+  color-scheme: dark;
+  --paper: #121c2b;
+  --surface: #203044;
+  --subtle: #293c51;
+  --row-hover: #2a4057;
+  --rule: #394e63;
+  --rule-strong: #637990;
+  --grid-line: #3a4b5f;
 
-  --ink: #dfe4ec;
-  --ink-muted: #a1acba;
-  --ink-dim: #7b8696;
+  --ink: #f0eee7;
+  --ink-muted: #c4cfd8;
+  --ink-dim: #a8bacb;
 
-  --btn-active-bg: #dfe4ec;
-  --btn-active-fg: #1d2229;
+  --btn-active-bg: #e7bd81;
+  --btn-active-fg: #242c35;
 
-  /* Calmed Dusk Accents */
-  --clean: #4cc499;
-  --clean-soft: #243b35;
-  --clean-border: #335c50;
-  --fossil: #e0785a;
-  --solar: #dfa145;
-  --wind: #41b3a8;
-  --hydro: #6298e8;
-  --nuclear: #9e82e8;
-  --coal: #7c8796;
+  --clean: #69d5b7;
+  --clean-soft: #23443f;
+  --clean-border: #446e65;
+  --fossil: #f09b7e;
+  --solar: #e4ae5a;
+  --wind: #4abbab;
+  --hydro: #78a9e1;
+  --nuclear: #b399d4;
+  --coal: #8a9cb0;
 }
 
 @layer base {
@@ -127,7 +127,7 @@
   .tab-btn.active {
     color: var(--ink);
     font-weight: 600;
-    border-bottom-color: var(--clean);
+    border-bottom-color: var(--btn-active-bg);
   }
 
   /* Crisp Native Sliders */
@@ -135,8 +135,8 @@
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
-    height: 4px;
-    background: var(--rule-strong);
+    height: 14px;
+    background: linear-gradient(var(--rule-strong), var(--rule-strong)) center / 100% 2px no-repeat;
     border-radius: 2px;
     outline: none;
     cursor: pointer;
@@ -147,8 +147,8 @@
     appearance: none;
     width: 13px;
     height: 13px;
-    border-radius: 2px;
-    background: var(--ink);
+    border-radius: 50%;
+    background: var(--btn-active-bg);
     border: 1px solid var(--surface);
     cursor: pointer;
   }
@@ -156,8 +156,8 @@
   input[type="range"].grid-slider::-moz-range-thumb {
     width: 13px;
     height: 13px;
-    border-radius: 2px;
-    background: var(--ink);
+    border-radius: 50%;
+    background: var(--btn-active-bg);
     border: 1px solid var(--surface);
     cursor: pointer;
   }
@@ -196,4 +196,24 @@
   .data-table td:first-child {
     text-align: left;
   }
+}
+
+/* A report-style masthead paired with tabular figures. */
+header h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.5rem, 2vw, 1.85rem);
+  font-weight: 500;
+  letter-spacing: -.035em;
+  line-height: 1.2;
+}
+
+.sheet .font-mono-num.text-2xl {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: -.035em;
+}
+
+button:focus-visible, select:focus-visible, input.grid-slider:focus-visible {
+  outline: 2px solid var(--btn-active-bg);
+  outline-offset: 3px;
 }
