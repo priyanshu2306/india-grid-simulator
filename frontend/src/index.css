@@ -4,61 +4,61 @@
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  /* Light theme */
-  --paper: #f2f5f1;
-  --surface: #ffffff;
-  --subtle: #edf2ed;
-  --row-hover: #dcd9cf;
-  --rule: #d4ded7;
-  --rule-strong: #98aaa1;
-  --grid-line: #dae3de;
+  /* Porcelain */
+  color-scheme: light;
+  --paper: #f3f1ec;
+  --surface: #fffefa;
+  --subtle: #eceae4;
+  --row-hover: #eeece6;
+  --rule: #d7d5ce;
+  --rule-strong: #aaa89f;
+  --grid-line: #dfddd5;
 
-  --ink: #1b1e21;
-  --ink-muted: #494f56;
-  --ink-dim: #56695f;
+  --ink: #27292c;
+  --ink-muted: #555b60;
+  --ink-dim: #62676b;
 
-  --btn-active-bg: #115846;
-  --btn-active-fg: #ffffff;
+  --btn-active-bg: #35475f;
+  --btn-active-fg: #fffefa;
 
-  /* Muted Energy Sector Accents */
-  --clean: #0e6348;
-  --clean-soft: #cde0d6;
-  --clean-border: #9ec5b2;
-  --fossil: #a63d20;
-  --solar: #c26a08;
-  --wind: #0e6b64;
-  --hydro: #2358c4;
-  --nuclear: #6228ba;
-  --coal: #42474d;
+  --clean: #2c7064;
+  --clean-soft: #e2eee7;
+  --clean-border: #a8cbbc;
+  --fossil: #a34c36;
+  --solar: #b9822d;
+  --wind: #43897d;
+  --hydro: #497aa4;
+  --nuclear: #887299;
+  --coal: #626972;
 }
 
 :root[data-theme="dusk"] {
-  /* Dark theme */
-  --paper: #101c1c;
-  --surface: #192928;
-  --subtle: #213532;
-  --row-hover: #333c48;
-  --rule: #334a45;
-  --rule-strong: #546172;
-  --grid-line: #374b46;
+  /* Graphite */
+  color-scheme: dark;
+  --paper: #1a1c20;
+  --surface: #22252a;
+  --subtle: #292d33;
+  --row-hover: #2c3037;
+  --rule: #3d4148;
+  --rule-strong: #59616c;
+  --grid-line: #3b4047;
 
-  --ink: #dfe4ec;
-  --ink-muted: #a1acba;
-  --ink-dim: #a1b5ad;
+  --ink: #e8e7e3;
+  --ink-muted: #b9bdc3;
+  --ink-dim: #a2a8b1;
 
-  --btn-active-bg: #dfe4ec;
-  --btn-active-fg: #1d2229;
+  --btn-active-bg: #acbed7;
+  --btn-active-fg: #1e2834;
 
-  /* Calmed Dusk Accents */
-  --clean: #4cc499;
-  --clean-soft: #243b35;
-  --clean-border: #335c50;
-  --fossil: #e0785a;
-  --solar: #dfa145;
-  --wind: #41b3a8;
-  --hydro: #6298e8;
-  --nuclear: #9e82e8;
-  --coal: #7c8796;
+  --clean: #86bca9;
+  --clean-soft: #293b36;
+  --clean-border: #4e7466;
+  --fossil: #e2977d;
+  --solar: #d4a04f;
+  --wind: #67a99c;
+  --hydro: #81a6ca;
+  --nuclear: #b19bc2;
+  --coal: #88919c;
 }
 
 @layer base {
@@ -87,7 +87,7 @@
   .sheet {
     background-color: var(--surface);
     border: 1px solid var(--rule);
-    border-radius: 14px;
+    border-radius: 4px;
   }
 
   .btn-flat {
@@ -100,7 +100,7 @@
     color: var(--ink);
     background-color: var(--surface);
     border: 1px solid var(--rule-strong);
-    border-radius: 8px;
+    border-radius: 3px;
     cursor: pointer;
     transition: background-color 0.12s ease, border-color 0.12s ease;
   }
@@ -127,7 +127,7 @@
   .tab-btn.active {
     color: var(--ink);
     font-weight: 600;
-    border-bottom-color: var(--clean);
+    border-bottom-color: var(--btn-active-bg);
   }
 
   /* Crisp Native Sliders */
@@ -135,8 +135,8 @@
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
-    height: 4px;
-    background: var(--rule-strong);
+    height: 14px;
+    background: linear-gradient(var(--rule-strong), var(--rule-strong)) center / 100% 2px no-repeat;
     border-radius: 2px;
     outline: none;
     cursor: pointer;
@@ -147,8 +147,8 @@
     appearance: none;
     width: 13px;
     height: 13px;
-    border-radius: 2px;
-    background: var(--ink);
+    border-radius: 50%;
+    background: var(--btn-active-bg);
     border: 1px solid var(--surface);
     cursor: pointer;
   }
@@ -156,8 +156,8 @@
   input[type="range"].grid-slider::-moz-range-thumb {
     width: 13px;
     height: 13px;
-    border-radius: 2px;
-    background: var(--ink);
+    border-radius: 50%;
+    background: var(--btn-active-bg);
     border: 1px solid var(--surface);
     cursor: pointer;
   }
@@ -198,37 +198,22 @@
   }
 }
 
-.brand, .controls-toggle, .chart-choices { display: flex; align-items: center; }
-.brand { gap: .65rem; font-weight: 700; letter-spacing: -.035em; font-size: 1.1rem; }
-.brand-mark { display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: .6rem; background: #154d41; color: #ceef82; font-size: 1.7rem; line-height: 1; }
-.outlook { background: #133e36; color: #f4f8ed; }
-.outlook-period { font-size: .7rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: #c9ea9a; }
-.outlook-inner { max-width: 1380px; margin: auto; padding: 1.45rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1.1rem; }
-.outlook h1 { font-size: clamp(2rem, 4vw, 3.2rem); letter-spacing: -.055em; line-height: 1.12; font-weight: 600; margin: .18rem 0 .4rem; }
-.outlook-source, .outlook-result p { color: #d1dfd9; font-size: .8rem; }
-.outlook-result { border-left: 2px solid #afd482; padding-left: 1rem; }
-.outlook-result strong { display: block; line-height: 1.3; letter-spacing: -.04em; font-weight: 600; font-size: clamp(1.55rem, 2.7vw, 2.25rem); }
-.metric-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(145px,100%),1fr)); gap: .55rem; }
-.metric-grid > div { grid-column: auto; background: var(--surface); border: 1px solid var(--rule); border-radius: .8rem; padding: .9rem; }
-.metric-grid .text-2xl { font-family: var(--font-sans); letter-spacing: -.05em; line-height: 1.2; }
-.sheet { box-shadow: 0 2px 6px rgb(0 25 13 / .035); }
-.control-body > div + div { margin-top: .8rem; }
-.controls-toggle { display: none; }
-.chart-heading { font-size: 1.35rem; font-weight: 650; letter-spacing: -.04em; }
-.chart-unit { font-size: .78rem; color: var(--ink-muted); margin: .1rem 0 .8rem; }
-.chart-choices { flex-wrap: wrap; }
-button:focus-visible, select:focus-visible, input.grid-slider:focus-visible { outline: 3px solid var(--clean); outline-offset: 3px; }
-input[type="range"].grid-slider { height: 18px; background: linear-gradient(var(--rule-strong),var(--rule-strong)) center / 100% 3px no-repeat; }
-input[type="range"].grid-slider::-webkit-slider-thumb { border-radius: 50%; width: 16px; height: 16px; background: var(--clean); }
-input[type="range"].grid-slider::-moz-range-thumb { border-radius: 50%; width: 16px; height: 16px; background: var(--clean); }
-main > div { min-width: 0; }
-@media (max-width: 1023px) {
-  .controls-toggle { display: flex; justify-content: space-between; width: 100%; padding: .8rem 1rem; }
-  .control-body:not(.expanded) { display: none; }
+/* A report-style masthead paired with tabular figures. */
+header h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.5rem, 2vw, 1.85rem);
+  font-weight: 500;
+  letter-spacing: -.035em;
+  line-height: 1.2;
 }
-@media (max-width: 640px) {
-  .outlook-inner { align-items: flex-start; flex-direction: column; padding: 1.2rem 1rem; }
-  .metric-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
-  .metric-grid > :last-child { grid-column: 1 / -1; }
-  .tab-btn { padding-inline: .55rem; }
+
+.sheet .font-mono-num.text-2xl {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: -.035em;
+}
+
+button:focus-visible, select:focus-visible, input.grid-slider:focus-visible {
+  outline: 2px solid var(--btn-active-bg);
+  outline-offset: 3px;
 }
