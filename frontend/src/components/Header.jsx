@@ -27,6 +27,15 @@ export default function Header({
             <span className="font-mono-num text-[var(--clean)] font-semibold">
               2025–2040
             </span>
+            <span className="text-[var(--rule-strong)]">/</span>
+  <a
+    href="https://github.com/priyanshu2306/india-grid-simulator"
+    target="_blank"
+    rel="noreferrer"
+    className="hover:text-[var(--ink)] transition-colors"
+  >
+    By Priyanshu Kumar
+  </a>
           </div>
           <h1 className="mt-0.5 text-xl sm:text-2xl font-bold tracking-tight text-[var(--ink)]">
             India Grid &amp; Emissions Workbench

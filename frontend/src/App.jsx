@@ -279,6 +279,28 @@ export default function App() {
             showAllYears={showAllYears}
             onToggleYears={() => setShowAllYears((v) => !v)}
           />
+          <footer className="pt-3 pb-4 border-t border-[var(--rule)] flex flex-wrap items-center justify-between gap-2 text-xs text-[var(--ink-dim)]">
+  <span>
+    Built by{" "}
+    <a
+      href="https://github.com/priyanshu2306"
+      target="_blank"
+      rel="noreferrer"
+      className="font-medium text-[var(--ink-muted)] hover:text-[var(--ink)] underline underline-offset-2"
+    >
+      Priyanshu Kumar
+    </a>{" "}
+    · Calibrated in Python &amp; Pandas
+  </span>
+  <a
+    href="https://github.com/priyanshu2306/india-grid-simulator"
+    target="_blank"
+    rel="noreferrer"
+    className="font-mono-num text-[11px] text-[var(--ink-muted)] hover:text-[var(--ink)] underline underline-offset-2"
+  >
+    Notebook &amp; Source ↗
+  </a>
+</footer>
         </div>
       </main>
     </div>
