@@ -4,61 +4,61 @@
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  /* Porcelain */
+  /* Linen */
   color-scheme: light;
-  --paper: #f3f1ec;
-  --surface: #fffefa;
-  --subtle: #eceae4;
-  --row-hover: #eeece6;
-  --rule: #d7d5ce;
-  --rule-strong: #aaa89f;
-  --grid-line: #dfddd5;
+  --paper: #d6d4ca;
+  --surface: #e6e3d9;
+  --subtle: #cccac1;
+  --row-hover: #dad8cf;
+  --rule: #b7b6ad;
+  --rule-strong: #85867f;
+  --grid-line: #c3c4bc;
 
-  --ink: #27292c;
-  --ink-muted: #555b60;
-  --ink-dim: #62676b;
+  --ink: #272b2c;
+  --ink-muted: #454e52;
+  --ink-dim: #535b5e;
 
-  --btn-active-bg: #35475f;
-  --btn-active-fg: #fffefa;
+  --btn-active-bg: #384e60;
+  --btn-active-fg: #f5f0e5;
 
-  --clean: #2c7064;
-  --clean-soft: #e2eee7;
-  --clean-border: #a8cbbc;
-  --fossil: #a34c36;
-  --solar: #b9822d;
-  --wind: #43897d;
-  --hydro: #497aa4;
-  --nuclear: #887299;
-  --coal: #626972;
+  --clean: #22675b;
+  --clean-soft: #ccded2;
+  --clean-border: #89ab9b;
+  --fossil: #93412e;
+  --solar: #a56e25;
+  --wind: #337b70;
+  --hydro: #416f98;
+  --nuclear: #82658c;
+  --coal: #535e66;
 }
 
 :root[data-theme="dusk"] {
-  /* Graphite */
+  /* Ink */
   color-scheme: dark;
-  --paper: #1a1c20;
-  --surface: #22252a;
-  --subtle: #292d33;
-  --row-hover: #2c3037;
-  --rule: #3d4148;
-  --rule-strong: #59616c;
-  --grid-line: #3b4047;
+  --paper: #121c2b;
+  --surface: #203044;
+  --subtle: #293c51;
+  --row-hover: #2a4057;
+  --rule: #394e63;
+  --rule-strong: #637990;
+  --grid-line: #3a4b5f;
 
-  --ink: #e8e7e3;
-  --ink-muted: #b9bdc3;
-  --ink-dim: #a2a8b1;
+  --ink: #f0eee7;
+  --ink-muted: #c4cfd8;
+  --ink-dim: #a8bacb;
 
-  --btn-active-bg: #acbed7;
-  --btn-active-fg: #1e2834;
+  --btn-active-bg: #e7bd81;
+  --btn-active-fg: #242c35;
 
-  --clean: #86bca9;
-  --clean-soft: #293b36;
-  --clean-border: #4e7466;
-  --fossil: #e2977d;
-  --solar: #d4a04f;
-  --wind: #67a99c;
-  --hydro: #81a6ca;
-  --nuclear: #b19bc2;
-  --coal: #88919c;
+  --clean: #69d5b7;
+  --clean-soft: #23443f;
+  --clean-border: #446e65;
+  --fossil: #f09b7e;
+  --solar: #e4ae5a;
+  --wind: #4abbab;
+  --hydro: #78a9e1;
+  --nuclear: #b399d4;
+  --coal: #8a9cb0;
 }
 
 @layer base {
