@@ -139,7 +139,6 @@ export default function App() {
 
   
   const [theme, setTheme] = useState("stone");
-  const [controlsOpen, setControlsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("emissions");
   const [showAllYears, setShowAllYears] = useState(false);
   const [copiedMsg, setCopiedMsg] = useState("");
@@ -301,20 +300,31 @@ export default function App() {
       {/* TOP MASTHEAD BAR */}
       <header className="bg-[var(--surface)] border-b border-[var(--rule)]">
         <div className="mx-auto max-w-[1380px] px-4 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-4">
-          <div className="brand"><span className="brand-mark" aria-hidden="true">ϟ</span>India Grid Simulator</div>
+          <div>
+            <div className="flex items-center gap-2.5 text-[11px] font-medium uppercase tracking-wider text-[var(--ink-muted)]">
+              <span>India Power Sector</span>
+              <span className="text-[var(--rule-strong)]">/</span>
+              <span>Ember 2019–2024 Calibration</span>
+              <span className="text-[var(--rule-strong)]">/</span>
+              <span className="font-mono-num">2025–2040</span>
+            </div>
+            <h1 className="mt-0.5 text-xl sm:text-2xl font-bold tracking-tight text-[var(--ink)]">
+              India Grid &amp; Emissions Workbench
+            </h1>
+          </div>
+
           <div className="flex flex-wrap items-center gap-2">
             {/* Theme Toggle */}
             <div className="inline-flex rounded-xs border border-[var(--rule-strong)] overflow-hidden mr-1">
               {[
-                { id: "stone", label: "Light" },
-                { id: "dusk", label: "Dark" },
+                { id: "stone", label: "Light Theme" },
+                { id: "dusk", label: "Dark Theme" },
               ].map((t) => {
                 const active = theme === t.id;
                 return (
                   <button
                     key={t.id}
                     type="button"
-                    aria-pressed={active}
                     onClick={() => setTheme(t.id)}
                     className="px-2.5 py-1 text-xs font-medium cursor-pointer transition"
                     style={{
@@ -345,27 +355,12 @@ export default function App() {
           </div>
         </div>
 
-        <div className="outlook">
-          <div className="outlook-inner">
-            <div>
-              <p className="outlook-period">Power sector projections · 2025–2040</p>
-              <h1>India’s grid outlook</h1>
-              <p className="outlook-source">Calibrated with Ember electricity data, 2019–2024.</p>
-            </div>
-            <div className="outlook-result">
-              <p>{activePresetObj?.label ?? "Custom scenario"} · 2040</p>
-              <strong>{summary.finalYear.supply_gap_bu === 0 ? "Generation meets demand" :
-                <>{fmtNum(Math.abs(summary.finalYear.supply_gap_bu), Math.abs(summary.finalYear.supply_gap_bu) < 1 ? 2 : 0)} BU {summary.finalYear.supply_gap_bu < 0 ? "shortfall" : "surplus"}</>}</strong>
-              <p>{fmtNum(summary.finalYear.total_gen_bu, 0)} BU generated against {fmtNum(summary.finalYear.demand_bu, 0)} BU of demand</p>
-            </div>
-          </div>
-        </div>
         {/* SCENARIO PRESET STRIP */}
         <div className="border-t border-[var(--rule)] bg-[var(--subtle)]">
           <div className="mx-auto max-w-[1380px] px-4 sm:px-6 py-2 flex flex-wrap items-center justify-between gap-3">
             <div className="flex flex-wrap items-center gap-1.5">
               <span className="text-[11px] font-semibold uppercase tracking-wider text-[var(--ink-muted)] mr-2">
-                Scenario
+                Preset:
               </span>
               {SCENARIO_PRESETS.map((preset) => {
                 const isSelected = presetId === preset.id;
@@ -373,7 +368,6 @@ export default function App() {
                   <button
                     key={preset.id}
                     type="button"
-                    aria-pressed={isSelected}
                     onClick={() => selectPreset(preset)}
                     className="px-3 py-1.5 text-xs font-medium rounded-xs border transition cursor-pointer"
                     style={{
@@ -423,10 +417,6 @@ export default function App() {
       <main className="mx-auto max-w-[1380px] px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* LEFT STICKY CONTROL RAIL */}
         <aside className="lg:col-span-4 xl:col-span-3 lg:sticky lg:top-6 space-y-4">
-          <button className="controls-toggle btn-flat" aria-expanded={controlsOpen} aria-controls="scenario-controls" onClick={() => setControlsOpen(!controlsOpen)}>
-            {controlsOpen ? "Hide" : "Adjust"} model controls <span aria-hidden="true">{controlsOpen ? "−" : "+"}</span>
-          </button>
-          <div id="scenario-controls" className={controlsOpen ? "control-body expanded" : "control-body"}>
           <div className="sheet p-4 space-y-5">
             <div className="border-b border-[var(--rule)] pb-3">
               <h2 className="text-xs font-bold uppercase tracking-wider text-[var(--ink)]">
@@ -442,7 +432,7 @@ export default function App() {
             {/* Demand Growth */}
             <div>
               <div className="flex items-baseline justify-between mb-1.5">
-                <label htmlFor="demand-growth" className="text-xs font-semibold text-[var(--ink)]">
+                <label className="text-xs font-semibold text-[var(--ink)]">
                   Demand Growth
                 </label>
                 <span className="font-mono-num text-xs font-semibold text-[var(--fossil)]">
@@ -452,7 +442,6 @@ export default function App() {
               <input
                 type="range"
                 className="grid-slider"
-                id="demand-growth"
                 min="3.5"
                 max="8.0"
                 step="0.1"
@@ -493,7 +482,6 @@ export default function App() {
                     <input
                       type="range"
                       className="grid-slider"
-                      aria-label={`${f.label} annual capacity change in gigawatts`}
                       min={f.min}
                       max={f.max}
                       step={f.step}
@@ -521,7 +509,6 @@ export default function App() {
                     <button
                       key={pol.id}
                       type="button"
-                      aria-pressed={isActive}
                       onClick={() => applyCoalPolicy(pol.value)}
                       className="border rounded-xs py-1.5 px-2 text-left transition cursor-pointer"
                       style={{
@@ -547,10 +534,10 @@ export default function App() {
 
             {/* Storage Boost */}
             <div className="border-t border-[var(--rule)] pt-4">
-              <label htmlFor="storage" className="block text-[11px] font-bold uppercase tracking-wider text-[var(--ink-muted)] mb-1.5">
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-[var(--ink-muted)] mb-1.5">
                 RE Storage / CUF Boost
               </label>
-              <select id="storage"
+              <select
                 value={reCufBoostPct}
                 onChange={(e) => {
                   setPresetId("custom");
@@ -571,13 +558,12 @@ export default function App() {
             <strong className="text-[var(--ink-muted)]">Note:</strong>{" "}
             {metadata.methodological_note}
           </div>
-          </div>
         </aside>
 
         {/* RIGHT MAIN ANALYTICAL CANVAS */}
         <div className="lg:col-span-8 xl:col-span-9 space-y-5">
           {/* FLAT BORDER-DIVIDED KPI STRIP */}
-          <section className="metric-grid">
+          <section className="sheet grid grid-cols-2 md:grid-cols-5 divide-y md:divide-y-0 md:divide-x divide-[var(--rule)]">
             <div className="p-4">
               <div className="text-[11px] font-semibold uppercase tracking-wider text-[var(--ink-muted)]">
                 2040 CO₂
@@ -598,7 +584,7 @@ export default function App() {
                 Peak Year
               </div>
               <div className="mt-1 font-mono-num text-2xl font-bold text-[var(--ink)]">
-                {summary.isPeakedBefore2040 ? summary.peakYear : "No peak yet"}
+                {summary.isPeakedBefore2040 ? summary.peakYear : "None"}
               </div>
               <div className="mt-1 text-[11px] font-mono-num text-[var(--ink-dim)]">
                 Max {fmtNum(summary.peakCo2Mt, 0)} MT
@@ -613,7 +599,7 @@ export default function App() {
                 {fmtNum(summary.finalYear.clean_share_pct, 1)}%
               </div>
               <div className="mt-1 text-[11px] font-mono-num text-[var(--ink-dim)]">
-                {summary.fiftyPctYear ? `50% reached in ${summary.fiftyPctYear}` : "Below 50% through 2040"}
+                ≥50%: {summary.fiftyPctYear ?? "Post-2040"}
               </div>
             </div>
 
@@ -659,34 +645,31 @@ export default function App() {
           {/* PRIMARY 3-TAB CHART SHEET */}
           <section className="sheet">
             <div className="px-4 pt-3 border-b border-[var(--rule)] flex flex-wrap items-center justify-between gap-2">
-              <div className="chart-choices">
+              <div className="flex items-center gap-1">
                 <button
                   type="button"
-                  aria-pressed={activeTab === "emissions"}
                   onClick={() => setActiveTab("emissions")}
                   className={`tab-btn ${
                     activeTab === "emissions" ? "active" : ""
                   }`}
                 >
-                  Emissions
+                  CO₂ Trajectory (MT)
                 </button>
                 <button
                   type="button"
-                  aria-pressed={activeTab === "power"}
                   onClick={() => setActiveTab("power")}
                   className={`tab-btn ${activeTab === "power" ? "active" : ""}`}
                 >
-                  Supply &amp; demand
+                  Generation vs. Demand (BU)
                 </button>
                 <button
                   type="button"
-                  aria-pressed={activeTab === "capacity"}
                   onClick={() => setActiveTab("capacity")}
                   className={`tab-btn ${
                     activeTab === "capacity" ? "active" : ""
                   }`}
                 >
-                  Capacity mix
+                  Installed Capacity Mix (GW)
                 </button>
               </div>
               <span className="text-[11px] font-mono-num text-[var(--ink-dim)] pb-2">
@@ -695,8 +678,7 @@ export default function App() {
             </div>
 
             <div className="p-4 sm:p-5">
-              <h2 className="chart-heading">{activeTab === "emissions" ? "Power sector emissions" : activeTab === "power" ? "Generation and demand" : "Installed capacity by source"}</h2>
-              <p className="chart-unit">{activeTab === "emissions" ? "Million tonnes of CO₂" : activeTab === "power" ? "Billion units of electricity" : "Gigawatts of installed capacity"}</p>
+              {/* Inline Legend */}
               <div className="mb-3 flex flex-wrap gap-4 text-xs text-[var(--ink-muted)]">
                 {activeTab === "emissions" && (
                   <>
