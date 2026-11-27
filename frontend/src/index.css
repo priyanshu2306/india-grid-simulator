@@ -1,0 +1,199 @@
+@import "tailwindcss";
+
+:root {
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Default: Warm Stone (Low-Glare Matte Paper, Zero Pure White) */
+  --paper: #d5d3ca;
+  --surface: #e3e1d8;
+  --subtle: #cbc8be;
+  --row-hover: #dcd9cf;
+  --rule: #bab6aa;
+  --rule-strong: #9c978a;
+  --grid-line: #c7c3b8;
+
+  --ink: #1b1e21;
+  --ink-muted: #494f56;
+  --ink-dim: #666d76;
+
+  --btn-active-bg: #24292e;
+  --btn-active-fg: #e6e4dc;
+
+  /* Muted Energy Sector Accents */
+  --clean: #0e6348;
+  --clean-soft: #cde0d6;
+  --clean-border: #9ec5b2;
+  --fossil: #a63d20;
+  --solar: #c26a08;
+  --wind: #0e6b64;
+  --hydro: #2358c4;
+  --nuclear: #6228ba;
+  --coal: #42474d;
+}
+
+:root[data-theme="dusk"] {
+  /* Soft Dusk (Dimmed Matte Slate, Zero Pitch Black) */
+  --paper: #242a32;
+  --surface: #2d343e;
+  --subtle: #353e4a;
+  --row-hover: #333c48;
+  --rule: #3f4956;
+  --rule-strong: #546172;
+  --grid-line: #3c4654;
+
+  --ink: #dfe4ec;
+  --ink-muted: #a1acba;
+  --ink-dim: #7b8696;
+
+  --btn-active-bg: #dfe4ec;
+  --btn-active-fg: #1d2229;
+
+  /* Calmed Dusk Accents */
+  --clean: #4cc499;
+  --clean-soft: #243b35;
+  --clean-border: #335c50;
+  --fossil: #e0785a;
+  --solar: #dfa145;
+  --wind: #41b3a8;
+  --hydro: #6298e8;
+  --nuclear: #9e82e8;
+  --coal: #7c8796;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+}
+
+@layer components {
+  .font-mono-num {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .sheet {
+    background-color: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+  }
+
+  .btn-flat {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.7rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--ink);
+    background-color: var(--surface);
+    border: 1px solid var(--rule-strong);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.12s ease, border-color 0.12s ease;
+  }
+
+  .btn-flat:hover {
+    background-color: var(--subtle);
+    border-color: var(--ink);
+  }
+
+  .tab-btn {
+    padding: 0.45rem 0.85rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--ink-muted);
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: color 0.12s ease, border-color 0.12s ease;
+  }
+
+  .tab-btn:hover {
+    color: var(--ink);
+  }
+
+  .tab-btn.active {
+    color: var(--ink);
+    font-weight: 600;
+    border-bottom-color: var(--clean);
+  }
+
+  /* Crisp Native Sliders */
+  input[type="range"].grid-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    background: var(--rule-strong);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  input[type="range"].grid-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 13px;
+    height: 13px;
+    border-radius: 2px;
+    background: var(--ink);
+    border: 1px solid var(--surface);
+    cursor: pointer;
+  }
+
+  input[type="range"].grid-slider::-moz-range-thumb {
+    width: 13px;
+    height: 13px;
+    border-radius: 2px;
+    background: var(--ink);
+    border: 1px solid var(--surface);
+    cursor: pointer;
+  }
+
+  /* Accounting-Style Data Table */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: right;
+    font-size: 0.78rem;
+  }
+
+  .data-table th {
+    padding: 0.6rem 0.65rem;
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-muted);
+    border-bottom: 1.5px solid var(--ink-muted);
+    background-color: var(--subtle);
+  }
+
+  .data-table td {
+    padding: 0.58rem 0.65rem;
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .data-table tbody tr:hover {
+    background-color: var(--row-hover);
+  }
+
+  .data-table th:first-child,
+  .data-table td:first-child {
+    text-align: left;
+  }
+}
